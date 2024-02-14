@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:orientation="vertical">
 
     <!--panel for main game play-->
     <Button
         android:id="@+id/newgame"
-        android:text="New Game"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:text="New Game" />
 
     <ImageView
         android:id="@+id/hangman"
@@ -39,7 +39,7 @@
         android:text="Choose A Letter"
         android:textColor="@color/black"
         android:textSize="15sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
     <GridLayout
         android:id="@+id/letters"
@@ -47,8 +47,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:columnCount="8"
-        android:rowCount="4"
-        android:paddingTop="15dp">
+        android:paddingTop="15dp"
+        android:rowCount="4">
 
         <Button
             android:id="@+id/A"
@@ -290,9 +290,9 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="10dp"
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
-        android:layout_gravity="center_horizontal">
+        android:padding="10dp">
 
         <Button
             android:id="@+id/hint"
@@ -305,7 +305,7 @@
             android:id="@+id/hinttext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""/>
+            android:text="" />
     </LinearLayout>
 
 </LinearLayout>

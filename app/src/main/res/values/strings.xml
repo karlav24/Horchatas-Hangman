@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Horchatas-Hangman</string>
+
+    // strings for when game ends
+    <string name="win_message">You win!</string>
+    <string name="lose_message">You lose. Try again!</string>
+    <string name="new_game">New game</string>
+    <string name="choose_a_letter">Choose a letter</string>
+    <string name="hint">Hint</string>
 </resources>
