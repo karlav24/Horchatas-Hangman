@@ -7,4 +7,9 @@
     <string name="new_game">New game</string>
     <string name="choose_a_letter">Choose a letter</string>
     <string name="hint">Hint</string>
+    <string name="android">The word is a popular phone type in competition with Apple. </string>
+    <string name="kotlin">Popular programming language for coding Android apps</string>
+    <string name="class_hint">Something used to create objects, has functions and methods.</string>
+    <string name="function">Something in coding that performs a task</string>
+    <string name="variable">Something in coding that holds a value</string>
 </resources>

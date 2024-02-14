@@ -299,10 +299,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="hint" />
+            android:text="hint"
+            android:visibility="gone"/>
 
         <TextView
-            android:id="@+id/hinttext"
+            android:id="@+id/hintText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="" />

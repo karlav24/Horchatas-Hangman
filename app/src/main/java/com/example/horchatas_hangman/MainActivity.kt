@@ -1,11 +1,14 @@
 package com.example.horchatas_hangman
 
+import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import android.view.View
 
 class MainActivity : AppCompatActivity() {
     // initialized views in onCreate
@@ -15,12 +18,20 @@ class MainActivity : AppCompatActivity() {
     private lateinit var newGameButton: Button
     private lateinit var hintButton: Button
     private lateinit var hintTextView: TextView
+    private var hintClickCount = 0
     private val letters = mutableListOf<Button>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        val orientation = resources.configuration.orientation
 
+        // Load the appropriate layout based on orientation
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            setContentView(R.layout.activity_landscape)
+        } else {
+            setContentView(R.layout.activity_main)
+        }
         hangmanGame = Hangman(getWords())
         
         initializeViews()
@@ -28,8 +39,21 @@ class MainActivity : AppCompatActivity() {
         newGameButton()
         hintButton()
         updateUI()
+        savedInstanceState?.let{onRestoreInstanceState(it)}
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        //outState.putBoolean("gameInProgress", gameInProgress)
+        outState.putCharSequence("wordText", goalWord.text)
+        outState.putInt("hangmanImageResource", hangmanGame.attemptsLeft)
+        outState.putString("guessedWords", getGuessedLetter())
+    }
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        goalWord.text = savedInstanceState.getCharSequence("wordText")
+
+    }
     // get the list of words for the hangman game
     private fun getWords(): List<String> {
         return listOf("Android", "Kotlin", "Variable", "Function", "Class")
@@ -41,7 +65,7 @@ class MainActivity : AppCompatActivity() {
         hangmanImage = findViewById(R.id.hangman)
         newGameButton = findViewById(R.id.newgame)
         hintButton = findViewById(R.id.hint)
-        hintTextView = findViewById(R.id.hinttext)
+        hintTextView = findViewById(R.id.hintText)
     }
 
     // initialize the buttons and add to a list called letters
@@ -54,6 +78,7 @@ class MainActivity : AppCompatActivity() {
         letterIds.forEach { id ->
             findViewById<Button>(id).also { button ->
                 letters.add(button)
+                button.visibility = View.VISIBLE
                 button.setOnClickListener { checkGuesses(button.text.first()) }
             }
         }
@@ -64,15 +89,83 @@ class MainActivity : AppCompatActivity() {
         newGameButton.setOnClickListener {
             hangmanGame.newGame()
             updateUI()
+            letters.forEach { button ->
+                    button.visibility = View.VISIBLE
+                    button.isEnabled = true
+            }
+            hintClickCount = 0
         }
     }
-
+    private fun getWord():String{
+        return hangmanGame.selectedWord
+    }
     // set up the logic for the hint with a click listener
     private fun hintButton() {
+        val word = getWord()
         hintButton.setOnClickListener {
-            // Your hint logic here
+            when(hintClickCount){
+                0 -> {
+                    if(word == "ANDROID"){
+                        hintTextView.text = getString(R.string.android)
+                    }
+                    if(word == "KOTLIN"){
+                        hintTextView.text = getString(R.string.kotlin)
+                    }
+                    if(word == "CLASS"){
+                        hintTextView.text = getString(R.string.class_hint)
+                    }
+                    if(word == "FUNCTION"){
+                        hintTextView.text = getString(R.string.function)
+                    }
+                    if(word == "VARIABLE"){
+                        hintTextView.text = getString(R.string.variable)
+                    }
+                }
+                1 -> {
+                    // Disable half of the remaining letters that are not part of the word
+                    val remainingLetters = letters.filter { button ->
+                        !hangmanGame.guessedLetters.contains(button.text.toString())
+                                && !word.contains(button.text.toString())
+                    }
+                    val disableCount = remainingLetters.size / 2
+                    val disabledLetters = remainingLetters.shuffled().take(disableCount)
+                    disabledLetters.forEach { button ->
+                        button.visibility = View.INVISIBLE
+                        button.isEnabled = false
+                    }
+                    // Deduct a turn from the attempts left
+                    hangmanGame.attemptsLeft--
+                    // Update UI
+                    updateUI()
+                }
+                2 -> {
+                    // Show all vowels and disable vowel buttons
+                    letters.filter { button ->
+                        val letter = button.text.toString()
+                        letter in listOf("A", "E", "I", "O", "U") &&
+                                !hangmanGame.guessedLetters.contains(letter)
+                    }.forEach { button ->
+                        button.isEnabled = false
+                        button.visibility = View.INVISIBLE
+
+                    }
+                    // Deduct a turn from the attempts left
+                    hangmanGame.attemptsLeft--
+                    // Update UI
+                    updateUI()
+                }
+                }
+                hintClickCount++
+                if (hintClickCount >= 3 || hangmanGame.attemptsLeft <= 1) {
+                    hintButton.isEnabled = false
+                    // Show a toast if clicking hint button would cause user to lose
+                    if (hangmanGame.attemptsLeft <= 1) {
+                        Toast.makeText(this, "Hint not available", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+
         }
-    }
 
     // handle letter guess and update the game state UI
     private fun checkGuesses(letter: Char) {
@@ -82,6 +175,9 @@ class MainActivity : AppCompatActivity() {
             updateHangman()
         }
         checkGameStatus()
+    }
+    private fun getGuessedLetter(): String {
+        return hangmanGame.guessedLetters
     }
 
     // UI updated based on the current game state

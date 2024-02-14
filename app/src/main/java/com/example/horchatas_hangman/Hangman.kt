@@ -13,7 +13,7 @@ class Hangman (private val words: List<String>){
 
     // variable for how many attempts left after choosing the wrong character
     var attemptsLeft = maxAttempts
-        private set // ensure that attemptsLeft can only be modified within class
+        //private set // ensure that attemptsLeft can only be modified within class
 
     // concatenate the guessed letters into a string
     val guessedLetters: String
