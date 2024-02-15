@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="horizontal">
+
+    <!-- left side panel for game status and input -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- new game button at the top -->
+        <Button
+            android:id="@+id/newgame"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Game" />
+
+        <!-- hangman image below the new game button -->
+        <ImageView
+            android:id="@+id/hangman"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:src="@drawable/init" />
+
+        <!-- word to guess displayed below the Hangman image -->
+        <TextView
+            android:id="@+id/word"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="_ _ _ _ _"
+            android:textColor="@color/black"
+            android:textSize="40sp" />
+
+        <!-- hint button and text view for hints -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/hint"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Hint"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/hintText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- right side panel for letter buttons -->
+    <GridLayout
+        android:id="@+id/letters"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:columnCount="6"
+        android:rowCount="5"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- define letter buttons -->
+        <Button android:id="@+id/A" style="@style/LetterButton" android:text="A" />
+        <Button android:id="@+id/B" style="@style/LetterButton" android:text="B" />
+        <Button android:id="@+id/C" style="@style/LetterButton" android:text="C" />
+        <Button android:id="@+id/D" style="@style/LetterButton" android:text="D" />
+        <Button android:id="@+id/E" style="@style/LetterButton" android:text="E" />
+        <Button android:id="@+id/F" style="@style/LetterButton" android:text="F" />
+        <Button android:id="@+id/G" style="@style/LetterButton" android:text="G" />
+        <Button android:id="@+id/H" style="@style/LetterButton" android:text="H" />
+        <Button android:id="@+id/I" style="@style/LetterButton" android:text="I" />
+        <Button android:id="@+id/J" style="@style/LetterButton" android:text="J" />
+        <Button android:id="@+id/K" style="@style/LetterButton" android:text="K" />
+        <Button android:id="@+id/L" style="@style/LetterButton" android:text="L" />
+        <Button android:id="@+id/M" style="@style/LetterButton" android:text="M" />
+        <Button android:id="@+id/N" style="@style/LetterButton" android:text="N" />
+        <Button android:id="@+id/O" style="@style/LetterButton" android:text="O" />
+        <Button android:id="@+id/P" style="@style/LetterButton" android:text="P" />
+        <Button android:id="@+id/Q" style="@style/LetterButton" android:text="Q" />
+        <Button android:id="@+id/R" style="@style/LetterButton" android:text="R" />
+        <Button android:id="@+id/S" style="@style/LetterButton" android:text="S" />
+        <Button android:id="@+id/T" style="@style/LetterButton" android:text="T" />
+        <Button android:id="@+id/U" style="@style/LetterButton" android:text="U" />
+        <Button android:id="@+id/V" style="@style/LetterButton" android:text="V" />
+        <Button android:id="@+id/W" style="@style/LetterButton" android:text="W" />
+        <Button android:id="@+id/X" style="@style/LetterButton" android:text="X" />
+        <Button android:id="@+id/Y" style="@style/LetterButton" android:text="Y" />
+        <Button android:id="@+id/Z" style="@style/LetterButton" android:text="Z" />
+    </GridLayout>
+</LinearLayout>
