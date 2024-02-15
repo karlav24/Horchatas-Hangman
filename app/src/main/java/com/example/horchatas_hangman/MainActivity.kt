@@ -11,8 +11,9 @@ import android.widget.Toast
 import android.view.View
 
 class MainActivity : AppCompatActivity() {
+    // initialized views in onCreate
     private lateinit var hangmanGame: Hangman
-    private lateinit var goalWord: TextView
+    private lateinit var goalWord: TextView // word that is being guessed
     private lateinit var hangmanImage: ImageView
     private lateinit var newGameButton: Button
     private lateinit var hintButton: Button
@@ -23,15 +24,22 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        val orientation = resources.configuration.orientation
 
+        // Load the appropriate layout based on orientation
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            setContentView(R.layout.activity_landscape)
+        } else {
+            setContentView(R.layout.activity_main)
+        }
         hangmanGame = Hangman(getWords())
-
+        
         initializeViews()
         initializeButtons()
-        newGameButton
+        newGameButton()
         hintButton()
         updateUI()
-        savedInstanceState?.let { onRestoreInstanceState(it) }
+        savedInstanceState?.let{onRestoreInstanceState(it)}
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -46,7 +54,7 @@ class MainActivity : AppCompatActivity() {
         goalWord.text = savedInstanceState.getCharSequence("wordText")
 
     }
-    // get the list of words for the hangman game, used android version names for fun
+    // get the list of words for the hangman game
     private fun getWords(): List<String> {
         return listOf("Android", "Kotlin", "Variable", "Function", "Class")
     }
@@ -93,12 +101,6 @@ class MainActivity : AppCompatActivity() {
     }
     // set up the logic for the hint with a click listener
     private fun hintButton() {
-        hintButton.visibility = if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            View.VISIBLE // show the button in landscape mode
-        } else {
-            View.GONE // hide the button in portrait mode
-        }
-
         val word = getWord()
         hintButton.setOnClickListener {
             when(hintClickCount){
